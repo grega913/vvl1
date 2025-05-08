@@ -16,8 +16,12 @@ startAider.cmd
 src_web/firebase_auth.json
 src_web/static/my_web_app/js/firebase-config.js
 
+
 # node modules
 src_web/static/my_web_app/node_modules/
+
+
+src_agentz/firebase_auth.json
 
 
 

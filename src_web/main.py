@@ -19,8 +19,11 @@ import time
 
 src_web_path = os.path.dirname(os.path.abspath(__file__))
 
+
 # Add src_web to the beginning of sys.path
 sys.path.insert(0, src_web_path)
+
+
 
 
 from routes.routes_basic import basic_router
@@ -73,9 +76,11 @@ app.include_router(basic_router)
 
 
 # mapping static file
-app.mount("/static", StaticFiles(directory="src_web/static", follow_symlink=True), name="static") 
+# app.mount("/static", StaticFiles(directory="src_web/static", follow_symlink=True), name="static") 
+static_dir = os.path.join(os.path.dirname(__file__), 'static')
+app.mount("/static", StaticFiles(directory=static_dir, follow_symlink=True), name="static")
 
 
 if __name__ == "__main__":
-
+    ic(sys.path)
     uvicorn.run("main:app", reload=True)
