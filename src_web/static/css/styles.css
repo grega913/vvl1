@@ -320,6 +320,59 @@ button {
     color: white;
 }
 
+/* Article Styles */
+.blog-article {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 1rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.article-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    color: var(--grey-color);
+    font-size: 0.9rem;
+}
+
+.article-content {
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.affiliate-links {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+}
+
+.affiliate-links h3 {
+    margin-bottom: 0.5rem;
+}
+
+.affiliate-links ul {
+    list-style: none;
+    padding: 0;
+}
+
+.affiliate-links li {
+    margin-bottom: 0.5rem;
+}
+
+.affiliate-links a {
+    color: var(--grey-color);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.affiliate-links a:hover {
+    color: var(--dark-color);
+    text-decoration: underline;
+}
+
 /* Footer Styles */
 
 footer {
