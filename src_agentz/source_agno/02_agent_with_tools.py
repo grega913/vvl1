@@ -16,6 +16,7 @@ class Article(BaseModel):
     content: str | None = "my content"  # Add content field, initialized as None
     link: str = "https://vivaverdelife.com/terms"  # Add link field, initialized as None
     uid: str | None = None  # Add uid field, initialized as None
+    created_at: str | None = None  # Will be set to server timestamp
 
 
 @tool(show_result=True, stop_after_tool_call=True)
@@ -45,10 +46,15 @@ def insert_article_into_Firestore(article: Article)->str:
 
         collection_ref = db.collection("articles")
         article_data = article.model_dump()  # Convert Article object to dict
+        # Add server timestamp
+        article_data["created_at"] = firestore.SERVER_TIMESTAMP
         _, doc_ref = collection_ref.add(article_data)
         uid = doc_ref.id
         # Update the document in Firestore with the generated UID
-        doc_ref.update({"uid": uid})
+        doc_ref.update({
+            "uid": uid,
+            "created_at": firestore.SERVER_TIMESTAMP  # Ensure timestamp is set
+        })
         print(f"Article inserted successfully with UID: {uid}")
         return uid
 
