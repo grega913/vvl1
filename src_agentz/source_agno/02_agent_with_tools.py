@@ -70,9 +70,10 @@ agent_firestore = Agent(
     markdown=True,
     show_tool_calls=True,
     debug_mode=True,
-    description="You are an agent responsible for communicating with Firestore."
+    description="You are an agent responsible for communicating with Firestore. Make sure to use appropriate tool. When inserting article, only use appropriate fields from the class Article, which are: title, content, link, uid, created_at."
+,
 )
 
 
 if __name__ == "__main__":
-    agent_firestore.print_response("Insert article into Firestore. If there are no known values for particular field in Article instance, just make up something simple", stream=True)
+    agent_firestore.print_response("Insert article into Firestore. If there are no known values for particular field in Article instance, just make up something simple. The content should be 3 sentences long. If there's no value for link, just use default one from where the class is defined.", stream=True)
