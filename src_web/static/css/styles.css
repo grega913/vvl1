@@ -324,53 +324,64 @@ button {
 .blog-article {
     max-width: 800px;
     margin: 2rem auto;
-    padding: 1rem;
+    padding: 2rem;
     background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
 .article-meta {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 1rem;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
     color: var(--grey-color);
     font-size: 0.9rem;
+    font-style: italic;
 }
 
 .article-content {
-    line-height: 1.6;
-    margin-bottom: 2rem;
+    line-height: 1.8;
+    margin-bottom: 2.5rem;
+    font-size: 1.1rem;
+}
+
+.affiliate-section {
+    margin-top: 3rem;
+    padding: 1.5rem;
+    background: var(--secondary-light-color);
+    border-radius: 8px;
+}
+
+.affiliate-section h3 {
+    margin-bottom: 1rem;
+    color: var(--dark-color);
+    font-size: 1.2rem;
 }
 
 .affiliate-links {
-    margin-top: 2rem;
-    padding-top: 1rem;
-    border-top: 1px solid #eee;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
 }
 
-.affiliate-links h3 {
-    margin-bottom: 0.5rem;
-}
-
-.affiliate-links ul {
-    list-style: none;
-    padding: 0;
-}
-
-.affiliate-links li {
-    margin-bottom: 0.5rem;
-}
-
-.affiliate-links a {
-    color: var(--grey-color);
-    text-decoration: none;
-    transition: color 0.3s;
-}
-
-.affiliate-links a:hover {
+.affiliate-link {
+    display: inline-block;
+    padding: 0.8rem 1.2rem;
+    background: white;
     color: var(--dark-color);
-    text-decoration: underline;
+    text-decoration: none;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.affiliate-link:hover {
+    background: var(--primary-light-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-color: transparent;
 }
 
 /* Footer Styles */

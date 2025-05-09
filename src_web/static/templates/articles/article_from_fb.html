@@ -11,10 +11,28 @@
 <body>
     <article class="blog-article">
         <h1>{{ article.title }}</h1>
+        
+        <div class="article-meta">
+            <span class="meta-item">Created: {{ article.created_at }}</span>
+            <span class="meta-item">ID: {{ article.uid }}</span>
+        </div>
+
         <div class="article-content">
             {{ article.content|safe }}
         </div>
-        <a href="{{ article.link }}" class="article-link">Read more</a>
+
+        {% if article.affiliatesLinks %}
+        <div class="affiliate-section">
+            <h3>Recommended Products</h3>
+            <div class="affiliate-links">
+                {% for link in article.affiliatesLinks %}
+                <a href="{{ link }}" target="_blank" rel="noopener noreferrer" class="affiliate-link">
+                    {{ link|url_domain }}
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
     </article>
 </body>
 
