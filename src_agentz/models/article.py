@@ -1,5 +1,3 @@
-from pydantic import BaseModel
-
 from textwrap import dedent
 from typing import List
 from pydantic import BaseModel, Field

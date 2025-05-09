@@ -29,9 +29,17 @@ async def article(article_id: str, request: Request):
         if doc_snapshot.exists:
             article_data = doc_snapshot.to_dict()
 
-
+            timestamp = article_data.get("created_at")
+            if timestamp:
+                # Convert Firestore timestamp to string format
+                article_data["created_at"] = timestamp.strftime("%Y-%m-%d %H:%M:%S")
+            else:
+                # Handle the case where created_at is not present or is None
+                article_data["created_at"] = "Unknown"
 
             article = Article(**article_data)
+            ic(article)
+            
             return templates.TemplateResponse(
                 request=request,
                 name="article_from_fb.html",

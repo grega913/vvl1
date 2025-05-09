@@ -8,32 +8,18 @@ from pydantic import BaseModel
 import firebase_admin
 from firebase_admin import credentials, firestore
 import os
+import sys
 
-
-# Assuming Article is defined somewhere like this:
-class Article(BaseModel):
-    title: str | None = "my title"  # Add title field, initialized as None
-    content: str | None = "my content"  # Add content field, initialized as None
-    affiliateLinks: list[str] = ["https://vivaverdelife.com/terms"]  # List of affiliate links
-    uid: str | None = None  # Add uid field, initialized as None
-    created_at: str | None = None  # Will be set to server timestamp
-
-
-@tool(show_result=True, stop_after_tool_call=True)
-def get_weather(city: str) -> str:
-    """Get the weather for a city."""
-    # In a real implementation, this would call a weather API
-    weather_conditions = ["sunny", "cloudy", "rainy", "snowy", "windy"]
-    random_weather = random.choice(weather_conditions)
-
-    return f"The weather in {city} is {random_weather}."
-
-
+from textwrap import dedent
+sys.path.insert(0, os.path.abspath('./'))
+from src_agentz.models.article import Article
 
 
 @tool(show_result=True, stop_after_tool_call=True)
 def insert_article_into_Firestore(article: Article)->str:
-    """Inserts the article into Firestore and returns the generated UID."""
+    """Inserts the article into Firestore and returns the generated UID. Ignore validation errors at this point."""
+    ic(" def insert_article_into_Firestore")
+
     try:
         cred_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "firebase_auth.json")
 
@@ -65,15 +51,20 @@ def insert_article_into_Firestore(article: Article)->str:
             return "Error inserting article"
 
 agent_firestore = Agent(
+    name="agent_firestore",
     model=DeepSeek(),
     tools=[insert_article_into_Firestore],
     markdown=True,
     show_tool_calls=True,
     debug_mode=True,
-    description="You are an agent responsible for communicating with Firestore. Make sure to use appropriate tool. When inserting article, only use appropriate fields from the class Article, which are: title, content, affiliateLinks, uid, created_at."
-,
+    description=dedent("""\
+        "You are an agent responsible for communicating with Firestore.
+         Make sure to use appropriate tool.
+         When inserting article, only use appropriate fields from the class Article,
+         which are: title, content, affiliateLinks, uid, created_at.\
+    """)
 )
 
 
 if __name__ == "__main__":
-    agent_firestore.print_response("Insert article into Firestore. If there are no known values for particular field in Article instance, just make up something simple. The content should be 3 sentences long. If there's no value for link, just use default one from where the class is defined.", stream=True)
+    agent_firestore.print_response("Insert article into Firestore. If there are no known values for particular field in Article instance, just make up something simple.  If there's no value for links, just use default one from where the class is defined.", stream=True)

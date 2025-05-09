@@ -6,38 +6,33 @@ import os
 
 # Assuming Article is defined somewhere like this:
 class Article(BaseModel):
-    """Model representing an article from Firestore"""
     title: str
-    link: str
     content: str
+    link: str
+    uid: str | None = None  # Add uid field, initialized as None
 
-# Initialize Firebase Admin
-'''
-def init_firebase(project_id, credential_path):
-    try:
-        # Initialize Firebase
-        cred = credentials.Certificate(credential_path)
-        firebase_admin.initialize_app(cred)
-        db = firestore.client()
-        return db
-    except Exception as e:
-        print(f"An error occurred: {e}")
-'''
+
+
 # Function to insert article into Firestore
-def insert_article(db, article: Article):
+def insert_article(db: firestore.client, article: Article):
     try:
         # Ensure the collection and document IDs are correct
         collection_ref = db.collection("articles")
-        article_data = article.dict()  # Convert Article object to dict
-        collection_ref.add(article_data)
-        print("Article inserted successfully.")
+        article_data = article.model_dump()  # Convert Article object to dict
+        _, doc_ref = collection_ref.add(article_data)
+        uid = doc_ref.id
+        # Update the document in Firestore with the generated UID
+        doc_ref.update({"uid": uid})
+        print(f"Article inserted successfully with UID: {uid}")
+        return uid
     except Exception as e:
         print(f"An error occurred while inserting article: {e}")
+        return None
 
 # Usage
 if __name__ == "__main__":
         try:
-        # Construct the path to the credentials file. Use a relative path.
+
 
             cred_path = os.path.join(os.path.dirname(__file__), "firebase_auth.json")
             ic(cred_path)
@@ -54,5 +49,10 @@ if __name__ == "__main__":
             db = None  # Set to None in case of failure
     
         if db:
-            article = Article(title="Example Title_2", link="https://example.com/blabla", content="This is an example article_2.")
-            insert_article(db, article)
+            article = Article(title="Example Title_", link="https://vivaverdelife.com/terms", content="This is an example article_5.")
+            generated_uid = insert_article(db, article)
+            if generated_uid:
+                ic(f"Article inserted with UID: {generated_uid}")
+            else:
+                ic("Failed to insert article.")
+            
