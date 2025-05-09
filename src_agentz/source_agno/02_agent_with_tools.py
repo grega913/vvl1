@@ -14,7 +14,7 @@ import os
 class Article(BaseModel):
     title: str | None = "my title"  # Add title field, initialized as None
     content: str | None = "my content"  # Add content field, initialized as None
-    link: str = "https://vivaverdelife.com/terms"  # Add link field, initialized as None
+    affiliateLinks: list[str] = ["https://vivaverdelife.com/terms"]  # List of affiliate links
     uid: str | None = None  # Add uid field, initialized as None
     created_at: str | None = None  # Will be set to server timestamp
 
@@ -70,7 +70,7 @@ agent_firestore = Agent(
     markdown=True,
     show_tool_calls=True,
     debug_mode=True,
-    description="You are an agent responsible for communicating with Firestore. Make sure to use appropriate tool. When inserting article, only use appropriate fields from the class Article, which are: title, content, link, uid, created_at."
+    description="You are an agent responsible for communicating with Firestore. Make sure to use appropriate tool. When inserting article, only use appropriate fields from the class Article, which are: title, content, affiliateLinks, uid, created_at."
 ,
 )
 
