@@ -3,8 +3,9 @@ from firebase_admin import credentials, firestore
 from pydantic import BaseModel
 from icecream import ic
 import os
+import sys
 
-
+sys.path.insert(0, os.path.abspath('./'))
 from src_agentz.models.article import Article
 
 
@@ -69,11 +70,11 @@ if __name__ == "__main__":
         
         # Test image uploads
         tmp_dir = os.path.join(os.path.dirname(__file__), "source_agno", "tmp")
-        image1 = os.path.join(tmp_dir, "test1.jpg")
+        image1 = os.path.join(tmp_dir, "20250510_093201.jpg")
         image2 = os.path.join(tmp_dir, "test2.png")
         
         if os.path.exists(image1):
-            upload_image_to_firebase_storage(image1, "test_image_1")
+            upload_image_to_firebase_storage(image1, "20250510_093201", "image/jpeg")
         if os.path.exists(image2):
             upload_image_to_firebase_storage(image2, "test_image_2", "image/png")
             
