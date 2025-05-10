@@ -25,15 +25,35 @@ def insert_article(db: firestore.client, article: Article):
         return None
 
 
-def upload_image_to_firebase_storage(image_path: str, uid: str):
+def upload_image_to_firebase_storage(image_path: str, uid: str, content_type: str = "image/jpeg"):
+    """Uploads an image to Firebase Storage with the given UID as filename.
+    
+    Args:
+        image_path: Path to the local image file
+        uid: Unique identifier to use as filename (without extension)
+        content_type: MIME type of the image (default: image/jpeg)
+    """
     try:
-        # Initialize Firebase Storage
+        if not os.path.exists(image_path):
+            raise FileNotFoundError(f"Image file not found at: {image_path}")
+            
         bucket = firebase_admin.storage.bucket()
-        blob = bucket.blob(f"images/{uid}.jpg")
+        # Get file extension from original filename
+        file_ext = os.path.splitext(image_path)[1].lower()
+        blob = bucket.blob(f"images/{uid}{file_ext}")
+        
+        # Set content type for proper browser rendering
+        blob.content_type = content_type
         blob.upload_from_filename(image_path)
-        print(f"Image uploaded successfully to Firebase Storage with UID: {uid}")
+        
+        # Make the blob publicly viewable
+        blob.make_public()
+        
+        print(f"Image uploaded successfully to: {blob.public_url}")
+        return blob.public_url
     except Exception as e:
-        print(f"An error occurred while uploading image: {e}")
+        print(f"Error uploading image: {e}")
+        return None
 
 
 # Usage
@@ -58,6 +78,16 @@ if __name__ == "__main__":
             generated_uid = insert_article(db, article)
             if generated_uid:
                 ic(f"Article inserted with UID: {generated_uid}")
+                
+                # Test uploading images
+                tmp_dir = os.path.join(os.path.dirname(__file__), "source_agno_tmp")
+                image1 = os.path.join(tmp_dir, "test1.jpg")
+                image2 = os.path.join(tmp_dir, "test2.png")
+                
+                if os.path.exists(image1):
+                    upload_image_to_firebase_storage(image1, f"{generated_uid}_1")
+                if os.path.exists(image2):
+                    upload_image_to_firebase_storage(image2, f"{generated_uid}_2", "image/png")
             else:
                 ic("Failed to insert article.")
             
