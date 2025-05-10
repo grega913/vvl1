@@ -3,6 +3,7 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 
 from icecream import ic
 import firebase_admin
@@ -79,6 +80,8 @@ app.include_router(basic_router)
 # app.mount("/static", StaticFiles(directory="src_web/static", follow_symlink=True), name="static") 
 static_dir = os.path.join(os.path.dirname(__file__), 'static')
 app.mount("/static", StaticFiles(directory=static_dir, follow_symlink=True), name="static")
+
+
 
 
 if __name__ == "__main__":

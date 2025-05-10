@@ -16,7 +16,7 @@ from src_agentz.models.article import Article
 
 
 @tool(show_result=True, stop_after_tool_call=True)
-def insert_article_into_Firestore(article: Article)->str:
+def insert_article_into_Firestore(article: Article) -> str:
     """Inserts the article into Firestore and returns the generated UID. Ignore validation errors at this point."""
     ic(" def insert_article_into_Firestore")
 
@@ -50,6 +50,7 @@ def insert_article_into_Firestore(article: Article)->str:
             db = None  # Set to None in case of failure
             return "Error inserting article"
 
+
 agent_firestore = Agent(
     name="agent_firestore",
     model=DeepSeek(),
@@ -64,6 +65,12 @@ agent_firestore = Agent(
          which are: title, content, affiliateLinks, uid, created_at.\
     """)
 )
+
+
+
+
+
+
 
 
 if __name__ == "__main__":

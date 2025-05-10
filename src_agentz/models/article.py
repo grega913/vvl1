@@ -27,4 +27,7 @@ class Article(BaseModel):
         ...,
         description="timestamp of when the article was created. This is usually set by the database server.",
     )
-  
+    articlesImages: List[str] | None = Field(
+        default = None,
+        description = "List of images relevant to the article. These images are stored in Firebase Storage and can be accessed using the public URL.",
+    )

@@ -2,13 +2,13 @@
 
 #### Instruction for setup are in AM.xlsx
 
-## Dockerization
+## Dockerization - for src_web
 
 1.  Start DockerDesktop or other Docker
 
 running commands from a src_web's parent folder
 
-2.  build docker based on image: docker build -t vvl-app
+2.  build docker based on image: docker build -t vvl-app .
 3.  test docker locally: docker run -d -p 8000:8000 vvl-app
 4.  tag docker: docker tag vvl-app europe-west1-docker.pkg.dev/ai01-51d16/ai25/vvl-app:latest
 5.  push to artifact registry on gcp: docker push europe-west1-docker.pkg.dev/ai01-51d16/ai25/vvl-app:latest

@@ -68,7 +68,7 @@ if __name__ == "__main__":
         cred = credentials.Certificate(cred_path)
         # Initialize with storage bucket from your Firebase project config
         firebase_admin.initialize_app(cred, {
-            'storageBucket': 'your-project-id.appspot.com'  # Replace with your actual bucket name
+            'storageBucket': 'ai01-51d16.appspot.com'  # Replace with your actual bucket name
         })
         
         # Test image uploads
