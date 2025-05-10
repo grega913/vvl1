@@ -4,13 +4,8 @@ from pydantic import BaseModel
 from icecream import ic
 import os
 
-# Assuming Article is defined somewhere like this:
-class Article(BaseModel):
-    title: str
-    content: str
-    link: str
-    uid: str | None = None  # Add uid field, initialized as None
 
+from src_agentz.models.article import Article
 
 
 # Function to insert article into Firestore
@@ -29,11 +24,21 @@ def insert_article(db: firestore.client, article: Article):
         print(f"An error occurred while inserting article: {e}")
         return None
 
+
+def upload_image_to_firebase_storage(image_path: str, uid: str):
+    try:
+        # Initialize Firebase Storage
+        bucket = firebase_admin.storage.bucket()
+        blob = bucket.blob(f"images/{uid}.jpg")
+        blob.upload_from_filename(image_path)
+        print(f"Image uploaded successfully to Firebase Storage with UID: {uid}")
+    except Exception as e:
+        print(f"An error occurred while uploading image: {e}")
+
+
 # Usage
 if __name__ == "__main__":
         try:
-
-
             cred_path = os.path.join(os.path.dirname(__file__), "firebase_auth.json")
             ic(cred_path)
             if not os.path.exists(cred_path):
