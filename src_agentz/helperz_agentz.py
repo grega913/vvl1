@@ -66,7 +66,10 @@ if __name__ == "__main__":
             raise FileNotFoundError(f"Firebase credentials file not found at: {cred_path}")
 
         cred = credentials.Certificate(cred_path)
-        firebase_admin.initialize_app(cred)
+        # Initialize with storage bucket from your Firebase project config
+        firebase_admin.initialize_app(cred, {
+            'storageBucket': 'your-project-id.appspot.com'  # Replace with your actual bucket name
+        })
         
         # Test image uploads
         tmp_dir = os.path.join(os.path.dirname(__file__), "source_agno", "tmp")
