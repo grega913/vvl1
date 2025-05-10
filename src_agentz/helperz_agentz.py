@@ -38,7 +38,7 @@ def upload_image_to_firebase_storage(image_path: str, uid: str, content_type: st
         if not os.path.exists(image_path):
             raise FileNotFoundError(f"Image file not found at: {image_path}")
             
-        bucket = firebase_admin.storage.bucket()
+        bucket = storage.bucket()
         # Get file extension from original filename
         file_ext = os.path.splitext(image_path)[1].lower()
         blob = bucket.blob(f"images/{uid}{file_ext}")
